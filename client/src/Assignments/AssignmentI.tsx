@@ -77,7 +77,7 @@ export default function VerticalTabs() {
         <BookTable />
       </TabPanel>
       <TabPanel value={value} index={1}>
-         Next Station ....
+        Next Station ....
         <ParticlesBg type="random" />
       </TabPanel>
     </div>

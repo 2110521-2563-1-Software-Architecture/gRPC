@@ -9,7 +9,12 @@ import Home from "./Home";
 import AssignmentI from "./Assignments/AssignmentI";
 import ParticlesBg from "particles-bg";
 import { useDencrypt } from "use-dencrypt-effect";
-const values = ["Nonthanat Thee ><", "Krit Lruay TT ", "Nithipud Tunti :>", "Tanawit Krit ^^"];
+const values = [
+  "Nonthanat Thee ><",
+  "Krit Lruay TT ",
+  "Nithipud Tunti :>",
+  "Tanawit Krit ^^",
+];
 
 const Example = () => {
   const { result, dencrypt } = useDencrypt();
@@ -22,9 +27,11 @@ const Example = () => {
     return () => clearInterval(action);
   }, []);
 
-  return <div>
-    <h3>Team Member : {result}</h3>
-    </div>;
+  return (
+    <div>
+      <h3>Team Member : {result}</h3>
+    </div>
+  );
 };
 
 interface TabPanelProps {
