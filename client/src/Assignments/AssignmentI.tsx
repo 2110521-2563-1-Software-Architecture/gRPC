@@ -1,85 +1,209 @@
-import React from "react";
-import { makeStyles, Theme } from "@material-ui/core/styles";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
-import BookTable from "../Components/BookTable";
-import ParticlesBg from "particles-bg";
+import React, { useEffect } from "react";
+import MaterialTable, { Column } from "material-table";
+import Axios, { AxiosResponse } from "axios";
+import { makeStyles } from '@material-ui/core/styles';
+import TreeView from '@material-ui/lab/TreeView';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import TreeItem from '@material-ui/lab/TreeItem';
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: any;
-  value: any;
+
+const useStyles = makeStyles({
+  root: {
+    height: 150,
+    flexGrow: 1,
+    maxWidth: 1000,
+  },
+});
+
+interface Book {
+  _id: string;
+  author: string;
+  title: string;
 }
 
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
+interface TableState {
+  columns: Array<Column<Book>>;
+  data: Book[];
+}
+
+const api = Axios.create({
+  baseURL: "http://localhost:3000/book",
+});
+
+export default function AssignmentI() {
+  const classes = useStyles();
 
   return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`vertical-tabpanel-${index}`}
-      aria-labelledby={`vertical-tab-${index}`}
-      {...other}
+    <TreeView
+      className={classes.root}
+      defaultCollapseIcon={<ExpandMoreIcon />}
+      defaultExpandIcon={<ChevronRightIcon />}
     >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
+      <TreeItem nodeId="2" label="LIST INSERT DELETE">
+        <Table / >
+      </TreeItem>
+      <TreeItem nodeId="5" label="Documents">
+        <TreeItem nodeId="10" label="OSS" />
+        <TreeItem nodeId="6" label="Material-UI">
+          <TreeItem nodeId="7" label="src">
+            <TreeItem nodeId="8" label="index.js" />
+            <TreeItem nodeId="9" label="tree-view.js" />
+          </TreeItem>
+        </TreeItem>
+      </TreeItem>
+    </TreeView>
   );
 }
 
-function a11yProps(index: any) {
-  return {
-    id: `vertical-tab-${index}`,
-    "aria-controls": `vertical-tabpanel-${index}`,
+  function Table() {
+  const [state, setState] = React.useState<TableState>({
+    columns: [
+      { title: "BOOK ID", field: "_id" },
+      { title: "BOOK Author", field: "author" },
+      { title: "BOOK Title", field: "title" },
+    ],
+    data: [],
+  });
+
+  // axios get
+  const getBook = async (id: string) => {
+    await api
+      .get(`/${id}`)
+      .then((response : AxiosResponse)=>{
+        const book = response.data
+        const ind = state.data.findIndex((bk : Book)=> bk._id === book._id)
+        setState((prevState: TableState)=> {
+          prevState.data[ind] = book
+          return { ...prevState };
+        })
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  }
+
+  // axios list
+  const getBooks = async () => {
+    await api
+      .get("/")
+      .then((response) => {
+        setState((prevState) => {
+          let data = response.data;
+          return { ...prevState, data };
+        });
+      })
+      .catch((err) => {
+        alert(err);
+      });
   };
-}
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
-    display: "flex",
-    height: 600,
-  },
-  tabs: {
-    borderRight: `1px solid ${theme.palette.divider}`,
-  },
-}));
-
-export default function VerticalTabs() {
-  const classes = useStyles();
-  const [value, setValue] = React.useState(0);
-
-  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-    setValue(newValue);
+  // axios delete
+  const deleteBook = async (book: Book) => {
+    await api
+      .delete(`/${book._id}`)
+      .then((response: AxiosResponse) => {
+        if(! response.status) {
+          alert("error " + response.status)
+          return 
+        }
+        setState((prevState) => {
+          const data = [...prevState.data];
+          data.splice(data.indexOf(book), 1);
+          return { ...prevState, data };
+        });
+      })
+      .catch((err) => {
+        alert(err);
+      });
   };
+
+  // axios add
+  const addBook = async (book: Book) => {
+    await api
+      .post("/", book)
+      .then((response) => {
+        setState((prevState) => {
+          const data = [...prevState.data];
+          data.push(response.data);
+          return { ...prevState, data };
+        });
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+  useEffect(() => {
+    getBooks();
+  }, []);
+
+  interface sth {
+    [key: string]: string;
+  }
 
   return (
-    <div className={classes.root}>
-      <Tabs
-        orientation="vertical"
-        variant="scrollable"
-        value={value}
-        onChange={handleChange}
-        aria-label="Vertical tabs example"
-        className={classes.tabs}
-      >
-        <Tab label="Insert Delete Test" {...a11yProps(0)} />
-        <Tab label="Get TEST" {...a11yProps(1)} />
-      </Tabs>
-      <TabPanel value={value} index={0}>
-        <BookTable />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        Next Station ....
-        <ParticlesBg type="random" />
-      </TabPanel>
-    </div>
+      <MaterialTable
+      title="Book List"
+      columns={state.columns}
+      data={state.data}
+      options={{ actionsColumnIndex: -1 }}
+      actions={[
+        {
+          icon: 'update',
+          tooltip: 'Update Info',
+          onClick: (event, rowData) => {
+            getBook((rowData as Book)._id)
+            // way 0
+            // if ("_id" in rowData) {
+            //   getBook(rowData._id)
+            // }
+
+            // way1
+            // if(!Array.isArray(rowData)){
+            //   getBook(rowData._id)
+            // }
+
+            // way2
+            // function checkObjectHasKeyId(object: Book | Book[]): object is Book {
+            //   return '_id' in object;
+            // }
+            // if(checkObjectHasKeyId(rowData)) {
+            //   getBook(rowData._id)
+            // }
+          }
+        }
+      ]}
+      editable={{
+        onRowAdd: (newData: Book) =>
+          new Promise((resolve) => {
+            resolve();
+            setTimeout(() => {
+              resolve();
+              addBook(newData);
+            }, 600);
+          }),
+        onRowUpdate: (newData, oldData) =>
+          new Promise((resolve) => {
+            setTimeout(() => {
+              resolve();
+              if (oldData) {
+                setState((prevState) => {
+                  const data = [...prevState.data];
+                  data[data.indexOf(oldData)] = newData;
+                  return { ...prevState, data };
+                });
+              }
+            }, 600);
+          }),
+        onRowDelete: (oldData: Book) =>
+          new Promise((resolve) => {
+            setTimeout(() => {
+              resolve();
+              deleteBook(oldData);
+            }, 600);
+          }),
+      }}
+    />
+    
   );
 }

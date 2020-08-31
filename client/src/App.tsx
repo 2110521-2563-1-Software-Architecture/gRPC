@@ -6,33 +6,35 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Home from "./Home";
-import AssignmentI from "./Assignments/AssignmentI";
+import Assignment from "./Assignment";
 import ParticlesBg from "particles-bg";
-import { useDencrypt } from "use-dencrypt-effect";
-const values = [
-  "Nonthanat Thee ><",
-  "Krit Lruay TT ",
-  "Nithipud Tunti :>",
-  "Tanawit Krit ^^",
-];
 
-const Example = () => {
-  const { result, dencrypt } = useDencrypt();
-  React.useEffect(() => {
-    let i = 0;
-    const action = setInterval(() => {
-      dencrypt(values[i]);
-      i = i === values.length - 1 ? 0 : i + 1;
-    }, 2000);
-    return () => clearInterval(action);
-  }, []);
+// import { useDencrypt } from "use-dencrypt-effect";
 
-  return (
-    <div>
-      <h3>Team Member : {result}</h3>
-    </div>
-  );
-};
+// const values = [
+//   "Nonthanat Thee ><",
+//   "Krit Lruay TT ",
+//   "Nithipud Tunti :>",
+//   "Tanawit Krit ^^",
+// ];
+
+// const Example = () => {
+//   const { result, dencrypt } = useDencrypt();
+//   React.useEffect(() => {
+//     let i = 0;
+//     const action = setInterval(() => {
+//       dencrypt(values[i]);
+//       i = i === values.length - 1 ? 0 : i + 1;
+//     }, 2000);
+//     return () => clearInterval(action);
+//   }, []);
+
+//   return (
+//     <div>
+//       <h3>Team Member : {result}</h3>
+//     </div>
+//   );
+// };
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -92,14 +94,14 @@ export default function SimpleTabs() {
         >
           <Tab label="Home" {...a11yProps(0)} />
           <Tab label="Assignment" {...a11yProps(1)} />
-          <Tab label="Don't click" {...a11yProps(2)} />
+          <Tab label="" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
         <Home />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <AssignmentI />
+        <Assignment />
       </TabPanel>
       <TabPanel value={value} index={2}>
         {/* <Example /> */}
