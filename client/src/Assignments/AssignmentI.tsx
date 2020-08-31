@@ -40,10 +40,10 @@ export default function AssignmentI() {
       defaultCollapseIcon={<ExpandMoreIcon />}
       defaultExpandIcon={<ChevronRightIcon />}
     >
-      <TreeItem nodeId="2" label="LIST INSERT DELETE">
+      <TreeItem nodeId="2" label="GET LIST INSERT DELETE">
         <Table / >
       </TreeItem>
-      <TreeItem nodeId="5" label="Documents">
+      {/* <TreeItem nodeId="5" label="Documents">
         <TreeItem nodeId="10" label="OSS" />
         <TreeItem nodeId="6" label="Material-UI">
           <TreeItem nodeId="7" label="src">
@@ -51,7 +51,7 @@ export default function AssignmentI() {
             <TreeItem nodeId="9" label="tree-view.js" />
           </TreeItem>
         </TreeItem>
-      </TreeItem>
+      </TreeItem> */}
     </TreeView>
   );
 }
@@ -72,10 +72,15 @@ export default function AssignmentI() {
       .get(`/${id}`)
       .then((response : AxiosResponse)=>{
         const book = response.data
-        const ind = state.data.findIndex((bk : Book)=> bk._id === book._id)
-        setState((prevState: TableState)=> {
-          prevState.data[ind] = book
-          return { ...prevState };
+        const data = state.data.map((bk : Book)=> {
+          if(bk._id == book._id) {
+            return book
+          } else {
+            return bk
+          }
+        })
+        setState((prevState)=> {
+          return { ...prevState, data };
         })
       })
       .catch((err) => {
