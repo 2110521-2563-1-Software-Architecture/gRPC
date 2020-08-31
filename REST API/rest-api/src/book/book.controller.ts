@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Body } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Patch, Put, Delete, Query } from '@nestjs/common';
 import { BookService } from './book.service';
 import { Book } from './book.model';
 import { ApiTags } from '@nestjs/swagger';
@@ -9,8 +9,15 @@ export class BookController {
     constructor(private readonly service: BookService){}
 
     @Get()
-    findAll() {
-        return this.service.find();
+    findAll(@Query() query) {
+        const filter = {}
+        if (query.title) {
+            filter['title'] = { $regex : query.title, $options : "i" }
+        }
+        if (query.author) {
+            filter['author'] = { $regex : query.author, $options : "i" }
+        }
+        return this.service.find(filter);
     }
 
     @Get(':id')
@@ -22,4 +29,20 @@ export class BookController {
     createBook(@Body() dto: Book) {
         return this.service.createBook(dto);
     }
+
+    // @Patch(':id')
+    // patchBook(@Param('id') bookId: string, @Body() dto: Partial<Book>) {
+    //     return this.service.updateBook(bookId, dto)
+    // }
+
+    @Put(':id')
+    putBook(@Param('id') bookId: string, @Body() dto: Book) {
+        return this.service.updateBook(bookId, dto)
+    }
+
+    @Delete(':id')
+    deleteBook(@Param('id') bookId: string) {
+        return this.service.deleteBook(bookId);
+    }
+
 }

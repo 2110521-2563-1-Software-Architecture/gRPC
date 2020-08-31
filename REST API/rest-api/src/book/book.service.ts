@@ -22,4 +22,12 @@ export class BookService {
         const book = new this.model(dto);
         return book.save();
     }
+
+    updateBook(id: string, dto: Partial<Book>): Promise<Book> {
+        return this.model.findByIdAndUpdate(id, dto, { new: true }).exec();
+    }
+
+    deleteBook(id: string): Promise<Book> {
+        return this.model.findByIdAndDelete(id).exec();
+    }
 }
