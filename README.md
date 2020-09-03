@@ -15,6 +15,10 @@
 
 ## 2. Source codes
 
+> [Client code](https://github.com/2110521-2563-1-Software-Architecture/gRPC/tree/master/client)
+
+> [REST API code](https://github.com/2110521-2563-1-Software-Architecture/gRPC/tree/master/rest-api)
+
 ## 3. Compare how to call the methods based on gRPC and REST API
 
 | Function     | gRPC                                            | REST API |
