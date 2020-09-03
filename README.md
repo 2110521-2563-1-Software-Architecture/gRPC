@@ -23,11 +23,17 @@
 
 | Function     | gRPC                                            | REST API |
 | ------------ | ----------------------------------------------- | -------- |
-| List books   | client.List(ctx, &pb.Empty{})                   | ...      |
-| Insert books | client.Insert(ctx, book)                        | ...      |
-| Get books    | client.Get(ctx, &pb.BookIdRequest{int32(id)})   | ...      |
-| Delete books | client.Delete(ctx, &pb.BookIdRequest{int32(id)} | ...      |
-| Watch books  | client.Watch(ctx, &pb.Empty{})                  | -        |
+| List books   | client.List(ctx, &pb.Empty{})                   | api.get("/")                |
+| Insert books | client.Insert(ctx, book)                        | api.post("/", book)         |
+| Get books    | client.Get(ctx, &pb.BookIdRequest{int32(id)})   | api.get(`/${id}`)           |
+| Delete books | client.Delete(ctx, &pb.BookIdRequest{int32(id)} | api.delete(`/${book._id}`)  |
+| Watch books  | client.Watch(ctx, &pb.Empty{})                  | -                           |
+```typescript
+const api = Axios.create({
+  baseURL: "http://localhost:3000/book",
+});
+
+```
 
 ## 4. What are the main differences between REST API and gRPC?
 
@@ -41,11 +47,11 @@ gRPC uses HTTP/2 to support highly performant and scalable API's and makes use o
 
 | Function     | gRPC                                                | REST API |
 | ------------ | --------------------------------------------------- | -------- |
-| List books   | go run client.go list                               | ...      |
-| Insert books | go run client.go insert \<id\> \<title\> \<author\> | ...      |
-| Get books    | go run client.go get \<id\>                         | ...      |
-| Delete books | go run client.go delete \<id\>                      | ...      |
-| Watch books  | go run client.go watch                              | ...      |
+| List books   | go run client.go list                               |         |
+| Insert books | go run client.go insert \<id\> \<title\> \<author\> |         |
+| Get books    | go run client.go get \<id\>                         |         |
+| Delete books | go run client.go delete \<id\>                      |         |
+| Watch books  | go run client.go watch                              | -       |
 
 ## 7. Component diagram with interfaces.
 
