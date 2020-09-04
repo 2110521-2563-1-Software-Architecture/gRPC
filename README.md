@@ -41,11 +41,11 @@ gRPC uses HTTP/2 to support highly performant and scalable API's and makes use o
 
 | Function     | gRPC                                                | REST API |
 | ------------ | --------------------------------------------------- | -------- |
-| List books   | go run client.go list                               |          |
-| Insert books | go run client.go insert \<id\> \<title\> \<author\> |          |
-| Get books    | go run client.go get \<id\>                         |          |
-| Delete books | go run client.go delete \<id\>                      |          |
-| Watch books  | go run client.go watch                              | -        |
+| List books   | call api.listBook()                                 | call api.listBook()    |
+| Insert books | go run client.go insert \<id\> \<title\> \<author\> | call api.insertBook()            |
+| Get books    | go run client.go get \<id\>                         | call api.getBook()             |
+| Delete books | go run client.go delete \<id\>                      | call api.deleteBook()             |
+| Watch books  | -                         | -        |
 
 ## 7. Component diagram with interfaces.
 
