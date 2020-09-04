@@ -11,7 +11,7 @@
 
 ## 1. Swagger for APIs
 
-![swagger-screenshots](http://lmsotfy.com/so.png)
+![swagger-screenshots](https://raw.githubusercontent.com/2110521-2563-1-Software-Architecture/gRPC/master/pic/swagger.png)
 
 ## 2. Source codes
 
@@ -41,11 +41,11 @@ gRPC uses HTTP/2 to support highly performant and scalable API's and makes use o
 
 | Function     | gRPC                                                | REST API |
 | ------------ | --------------------------------------------------- | -------- |
-| List books   | go run client.go list                               |          |
-| Insert books | go run client.go insert \<id\> \<title\> \<author\> |          |
-| Get books    | go run client.go get \<id\>                         |          |
-| Delete books | go run client.go delete \<id\>                      |          |
-| Watch books  | go run client.go watch                              | -        |
+| List books   | call api.listBook()                                 | call api.listBook()    |
+| Insert books | call api.insertBook(book)                               | call api.insertBook(book)            |
+| Get books    | call api.getBook(id)                                  | call api.getBook(id)             |
+| Delete books | call api.deleteBook(id)                                | call api.deleteBook(id)             |
+| Watch books  | -                         | -        |
 
 ## 7. Component diagram with interfaces.
 
