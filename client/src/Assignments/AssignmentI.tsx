@@ -123,7 +123,7 @@ export default function AssignmentI() {
       });
   };
 
-  // axios add
+  // axios insert
   const addBook = async (book: Book) => {
     await api
       .post("/", book)
