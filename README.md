@@ -7,7 +7,7 @@
 1. Nonthanat Theeratanapartkul 6031019821
 2. Krit Kruaykitanon 6031002021
 3. Nithipud Tunticharoenviwat 6031032921
-4. Tanawit Kritwongwiman
+4. Tanawit Kritwongwiman 6031021021
 
 ## 1. Swagger for APIs
 
