@@ -49,4 +49,4 @@ gRPC uses HTTP/2 to support highly performant and scalable API's and makes use o
 
 ## 7. Component diagram with interfaces.
 
-![swagger-screenshots](http://lmsotfy.com/so.png)
+![swagger-screenshots](https://raw.githubusercontent.com/2110521-2563-1-Software-Architecture/gRPC/master/pic/component_diagram.jpeg)
