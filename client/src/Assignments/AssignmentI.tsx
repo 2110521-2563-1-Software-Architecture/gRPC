@@ -53,9 +53,11 @@ const API : Api = new RestAPI
 
 const useStyles = makeStyles({
   root: {
-    height: 150,
     flexGrow: 1,
     maxWidth: 1000,
+  },
+  item: {
+    marginTop: '5vmin',
   },
 });
 
@@ -144,6 +146,9 @@ function Table() {
 
   return (
       <MaterialTable
+      style={{
+        marginTop: '5vmin'
+      }}
       title="Book List"
       columns={state.columns}
       data={state.data}
