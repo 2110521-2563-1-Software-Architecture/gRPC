@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Key } from "react";
 import MaterialTable, { Column } from "material-table";
-import Axios, { AxiosResponse } from "axios";
+import Axios from "axios";
 import { makeStyles } from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -9,13 +9,14 @@ import TreeItem from '@material-ui/lab/TreeItem';
 
 
 interface Book {
-  _id: string;
+  _id: string,
+  id: string;
   author: string;
   title: string;
 }
 
 interface TableState {
-  columns: Array<Column<Book>>;
+  columns: Array<Column<Book> | {[key: string]: any}>;
   data: Book[];
 }
 
@@ -49,7 +50,7 @@ class RestAPI implements Api {
 
 }
 
-const API : Api = new RestAPI
+const API : Api = new RestAPI()
 
 const useStyles = makeStyles({
   root: {
@@ -66,7 +67,7 @@ function Table() {
     columns: [
       { title: "BOOK ID", field: "_id", editable: 'never'},
       { title: "BOOK Author", field: "author" },
-      { title: "BOOK Title", field: "title" },
+      { title: "BOOK Title", field: "title"},
     ],
     data: [],
   });
@@ -76,7 +77,7 @@ function Table() {
     await API.getBook(id)
       .then((book : Book)=>{
         const data = state.data.map((bk : Book)=> {
-          if(bk._id == book._id) {
+          if(bk.id === book.id) {
             return book
           } else {
             return bk
@@ -96,6 +97,7 @@ function Table() {
     await API
       .listBook()
       .then((books : Book[]) => {
+        console.log(books)
         setState((prevState) => {
           let data = books;
           return { ...prevState, data };
@@ -124,6 +126,7 @@ function Table() {
 
   // axios insert
   const addBook = async (book: Book) => {
+    console.log(book)
     await API.insertBook(book)
       .then((addedBook: Book) => {
         setState((prevState) => {
@@ -160,33 +163,35 @@ function Table() {
           onClick: (event, rowData) => {
             getBook((rowData as Book)._id)
             // way 0
-            // if ("_id" in rowData) {
-            //   getBook(rowData._id)
+            // if ("id" in rowData) {
+            //   getBook(rowData.id)
             // }
 
             // way1
             // if(!Array.isArray(rowData)){
-            //   getBook(rowData._id)
+            //   getBook(rowData.id)
             // }
 
             // way2
             // function checkObjectHasKeyId(object: Book | Book[]): object is Book {
-            //   return '_id' in object;
+            //   return 'id' in object;
             // }
             // if(checkObjectHasKeyId(rowData)) {
-            //   getBook(rowData._id)
+            //   getBook(rowData.id)
             // }
           }
         }
       ]}
       editable={{
+        isEditable : ()=> false,
         onRowAdd: (newData: Book) =>
           new Promise((resolve) => {
             resolve();
             setTimeout(() => {
               resolve();
+              // const data:Book = { ...newData, id:""}
               addBook(newData);
-            }, 600);
+            }, 100);
           }),
         onRowUpdate: (newData, oldData) =>
           new Promise((resolve) => {
@@ -199,14 +204,14 @@ function Table() {
                   return { ...prevState, data };
                 });
               }
-            }, 600);
+            }, 100);
           }),
         onRowDelete: (oldData: Book) =>
           new Promise((resolve) => {
             setTimeout(() => {
               resolve();
               deleteBook(oldData);
-            }, 600);
+            }, 100);
           }),
       }}
     />
