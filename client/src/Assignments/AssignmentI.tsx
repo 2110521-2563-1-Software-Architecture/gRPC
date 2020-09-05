@@ -54,16 +54,18 @@ const API : Api = new RestAPI()
 
 const useStyles = makeStyles({
   root: {
-    height: 150,
     flexGrow: 1,
     maxWidth: 1000,
+  },
+  item: {
+    marginTop: '5vmin',
   },
 });
 
 function Table() {
   const [state, setState] = React.useState<TableState>({
     columns: [
-      { title: "BOOK ID", field: "id" },
+      { title: "BOOK ID", field: "_id", editable: 'never'},
       { title: "BOOK Author", field: "author" },
       { title: "BOOK Title", field: "title"},
     ],
@@ -147,6 +149,9 @@ function Table() {
 
   return (
       <MaterialTable
+      style={{
+        marginTop: '5vmin'
+      }}
       title="Book List"
       columns={state.columns}
       data={state.data}
@@ -222,9 +227,10 @@ export default function AssignmentI() {
       className={classes.root}
       defaultCollapseIcon={<ExpandMoreIcon />}
       defaultExpandIcon={<ChevronRightIcon />}
+      defaultExpanded={["1"]}
     >
-      <TreeItem nodeId="2" label="GET LIST INSERT DELETE">
-        <Table / >
+      <TreeItem nodeId="1" label="GET LIST INSERT DELETE">
+        <Table/>
       </TreeItem>
       {/* <TreeItem nodeId="5" label="Documents">
         <TreeItem nodeId="10" label="OSS" />
