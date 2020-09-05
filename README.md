@@ -5,9 +5,9 @@
 ## Members
 
 1. Nonthanat Theeratanapartkul 6031019821
-2. Krit Kruaykitanon 6031002021
-3. Nithipud Tunticharoenviwat 6031032921
-4. Tanawit Kritwongwiman 6031021021
+2. Krit Kruaykitanon           6031002021
+3. Nithipud Tunticharoenviwat  6031032921
+4. Tanawit Kritwongwiman       6031021021
 
 ## 1. Swagger for APIs
 
@@ -15,9 +15,10 @@
 
 ## 2. Source codes
 
-> [Client code](https://github.com/2110521-2563-1-Software-Architecture/gRPC/tree/master/client)
-
-> [REST API code](https://github.com/2110521-2563-1-Software-Architecture/gRPC/tree/master/rest-api)
+> [Rest Client](https://github.com/2110521-2563-1-Software-Architecture/gRPC/blob/master/client/src/Assignments/AssignmentI.tsx)
+> [REST API](https://github.com/2110521-2563-1-Software-Architecture/gRPC/tree/master/rest-api)
+> [Grpc Client](https://github.com/2110521-2563-1-Software-Architecture/gRPC/blob/master/gRPC/client.js)
+> [Grpc API](https://github.com/2110521-2563-1-Software-Architecture/gRPC/tree/master/gRPC)
 
 ## 3. Compare how to call the methods based on gRPC and REST API
 
