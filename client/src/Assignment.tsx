@@ -26,7 +26,7 @@ function TabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box p={3}>
+        <Box>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -43,6 +43,8 @@ function a11yProps(index: any) {
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
+    paddingTop: '5vmin',
+    paddingLeft: '10vmin',
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
     display: "flex",

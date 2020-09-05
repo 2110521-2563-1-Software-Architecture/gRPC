@@ -217,9 +217,10 @@ export default function AssignmentI() {
       className={classes.root}
       defaultCollapseIcon={<ExpandMoreIcon />}
       defaultExpandIcon={<ChevronRightIcon />}
+      defaultExpanded={["1"]}
     >
-      <TreeItem nodeId="2" label="GET LIST INSERT DELETE">
-        <Table / >
+      <TreeItem nodeId="1" label="GET LIST INSERT DELETE">
+        <Table/>
       </TreeItem>
       {/* <TreeItem nodeId="5" label="Documents">
         <TreeItem nodeId="10" label="OSS" />
