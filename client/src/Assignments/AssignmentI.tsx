@@ -62,7 +62,7 @@ const useStyles = makeStyles({
 function Table() {
   const [state, setState] = React.useState<TableState>({
     columns: [
-      { title: "BOOK ID", field: "_id" },
+      { title: "BOOK ID", field: "_id", editable: 'never'},
       { title: "BOOK Author", field: "author" },
       { title: "BOOK Title", field: "title" },
     ],
