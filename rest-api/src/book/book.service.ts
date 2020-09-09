@@ -19,7 +19,7 @@ export class BookService {
     }
 
     async createBook(dto: Book): Promise<Book> {
-        const existed: boolean = this.model.exists({ id: dto.id });
+        const existed: boolean = await this.model.exists({ id: dto.id });
         if (existed) {
             throw new BadRequestException(`Book id ${dto.id} already existed`);
         }
