@@ -9,16 +9,20 @@ import { ExpressAdapter } from '@nestjs/platform-express';
 async function bootstrap() {
   try {
     const server: any = express();
-    const app = await NestFactory.create(AppModule, new ExpressAdapter(server), {
-      cors: true,
-    });
+    const app = await NestFactory.create(
+      AppModule,
+      new ExpressAdapter(server),
+      {
+        cors: true,
+      },
+    );
 
     const options = new DocumentBuilder()
-        .setTitle('Soft Arch')
-        .setDescription('Soft Arch')
-        .setVersion('1.0')
-        .addTag('SA')
-        .build();
+      .setTitle('Soft Arch')
+      .setDescription('Soft Arch')
+      .setVersion('1.0')
+      .addTag('SA')
+      .build();
 
     const document = SwaggerModule.createDocument(app, options);
     SwaggerModule.setup('swagger', app, document);
