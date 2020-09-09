@@ -81,7 +81,7 @@ export default function VerticalTabs() {
       </TabPanel>
       <TabPanel value={value} index={1}>
          <AssignmentII />
-        <ParticlesBg type="random" />
+        {/* <ParticlesBg type="random" /> */}
       </TabPanel>
     </div>
   );

@@ -5,6 +5,8 @@
   },
   "scripts": {
     "tsc": "tsc"
- },
-  "dependencies": {}
+  },
+  "dependencies": {
+    "grpc": "^1.24.3"
+  }
 }

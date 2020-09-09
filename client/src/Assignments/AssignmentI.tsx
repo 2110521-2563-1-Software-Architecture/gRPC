@@ -6,7 +6,8 @@ import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
-
+import api from '../utils/API'
+// import PropTypes, { InferProps } from "prop-types";
 
 interface Book {
   _id: string;
@@ -26,7 +27,6 @@ interface Api {
   insertBook(book: Book) : Promise<Book>,
   deleteBook(id: string) : Promise<Book> 
 }
-import api from '../utils/API'
 // const api = Axios.create({
 //   baseURL: "http://localhost:3000/book",
 // });
@@ -57,8 +57,7 @@ class RestAPI implements Api {
 
 }
 
-const API : Api = new RestAPI
-import PropTypes, { InferProps } from "prop-types";
+const API : Api = new RestAPI(api)
 
 const useStyles = makeStyles({
   root: {
@@ -83,7 +82,7 @@ function Table() {
     await API.getBook(id)
       .then((book : Book)=>{
         const data = state.data.map((bk : Book)=> {
-          if(bk._id == book._id) {
+          if(bk._id === book._id) {
             return book
           } else {
             return bk

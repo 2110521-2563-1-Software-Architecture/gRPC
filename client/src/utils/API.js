@@ -1,3 +1,4 @@
+import Axios from "axios";
 const api = Axios.create({
     baseURL: "http://localhost:3000/book",
   });
@@ -5,21 +6,21 @@ const api = Axios.create({
 api.interceptors.request.use( (x ) => {
 // to avoid overwriting if another interceptor
 // already defined the same object (meta)
-print(x)
-x.meta = x.meta || {}
-x.meta.requestStartedAt = new Date().getTime();
-return x;
+// print(x)
+    x.meta = x.meta || {}
+    x.meta.requestStartedAt = new Date().getTime();
+    return x;
 })
 
 api.interceptors.response.use( x => {
     console.log(`Execution time for: ${x.config.url} - ${ new Date().getTime() - x.config.meta.requestStartedAt} ms`)
-    return x;
-},
-// Handle 4xx & 5xx responses
-x => {
-    console.error(`Execution time for: ${x.config.url} - ${new Date().getTime() - x.config.meta.requestStartedAt} ms`)
-    throw x;
-}
+        return x;
+    },
+    // Handle 4xx & 5xx responses
+    x => {
+        console.error(`Execution time for: ${x.config.url} - ${new Date().getTime() - x.config.meta.requestStartedAt} ms`)
+        throw x;
+    }
 )
 
 const run  = async () => {
