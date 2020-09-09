@@ -1,4 +1,14 @@
-import { Controller, Get, Param, Post, Body, Patch, Put, Delete, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Post,
+  Body,
+  Patch,
+  Put,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { BookService } from './book.service';
 import { Book } from './book.model';
 import { ApiTags } from '@nestjs/swagger';
@@ -6,48 +16,47 @@ import { ApiTags } from '@nestjs/swagger';
 @ApiTags('Book')
 @Controller('book')
 export class BookController {
-    constructor(private readonly service: BookService){}
+  constructor(private readonly service: BookService) {}
 
-    @Get()
-    findAll(@Query() query) {
-        const filter = {}
-        if (query.title) {
-            filter['title'] = { $regex : query.title, $options : "i" }
-        }
-        if (query.author) {
-            filter['author'] = { $regex : query.author, $options : "i" }
-        }
-        return this.service.find(filter);
+  @Get()
+  findAll(@Query() query) {
+    const filter = {};
+    if (query.title) {
+      filter['title'] = { $regex: query.title, $options: 'i' };
     }
-
-    @Get(':id')
-    findById(@Param('id') id: string) {
-        return this.service.findById(id);
+    if (query.author) {
+      filter['author'] = { $regex: query.author, $options: 'i' };
     }
+    return this.service.find(filter);
+  }
 
-    @Post()
-    createBook(@Body() dto: Book) {
-        return this.service.createBook(dto);
-    }
+  @Get(':id')
+  findById(@Param('id') id: string) {
+    return this.service.findById(id);
+  }
 
-    @Post('multiple')
-    createMultipleBooks(@Body() books: Book[]) {
-        return this.service.createMultipleBooks(books);
-    }
+  @Post()
+  createBook(@Body() dto: Book) {
+    return this.service.createBook(dto);
+  }
 
-    // @Patch(':id')
-    // patchBook(@Param('id') bookId: string, @Body() dto: Partial<Book>) {
-    //     return this.service.updateBook(bookId, dto)
-    // }
+  @Post('multiple')
+  createMultipleBooks(@Body() books: Book[]) {
+    return this.service.createMultipleBooks(books);
+  }
 
-    @Put(':id')
-    putBook(@Param('id') bookId: string, @Body() dto: Book) {
-        return this.service.updateBook(bookId, dto)
-    }
+  // @Patch(':id')
+  // patchBook(@Param('id') bookId: string, @Body() dto: Partial<Book>) {
+  //     return this.service.updateBook(bookId, dto)
+  // }
 
-    @Delete(':id')
-    deleteBook(@Param('id') bookId: string) {
-        return this.service.deleteBook(bookId);
-    }
+  @Put(':id')
+  putBook(@Param('id') bookId: string, @Body() dto: Book) {
+    return this.service.updateBook(bookId, dto);
+  }
 
+  @Delete(':id')
+  deleteBook(@Param('id') bookId: string) {
+    return this.service.deleteBook(bookId);
+  }
 }

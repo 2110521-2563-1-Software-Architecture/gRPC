@@ -9,11 +9,11 @@ import { Book } from './book.model';
     TypegooseModule.forFeature([
       {
         typegooseClass: Book,
-        schemaOptions: { timestamps: true }
-      }
-    ])
+        schemaOptions: { timestamps: true },
+      },
+    ]),
   ],
   controllers: [BookController],
-  providers: [BookService]
+  providers: [BookService],
 })
 export class BookModule {}

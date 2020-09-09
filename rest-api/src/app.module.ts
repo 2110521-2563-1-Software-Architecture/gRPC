@@ -13,7 +13,7 @@ import { BookModule } from './book/book.module';
       useFindAndModify: false,
       useUnifiedTopology: true,
     }),
-    BookModule
+    BookModule,
   ],
   controllers: [AppController],
   providers: [AppService],
