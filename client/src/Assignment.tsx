@@ -5,6 +5,8 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import AssignmentI from './Assignments/AssignmentI'
+import AssignmentII from './Assignments/AssignmentII'
+
 import ParticlesBg from "particles-bg";
 
 
@@ -78,7 +80,7 @@ export default function VerticalTabs() {
         <AssignmentI />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Next Station ....
+         <AssignmentII />
         <ParticlesBg type="random" />
       </TabPanel>
     </div>
