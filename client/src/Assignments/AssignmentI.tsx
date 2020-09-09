@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import MaterialTable, { Column } from "material-table";
-import Axios, { AxiosResponse } from "axios";
+import Axios, { AxiosInstance } from "axios";
 import { makeStyles } from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -34,30 +34,39 @@ interface Api {
   insertBook(book: Book) : Promise<Book>,
   deleteBook(id: string) : Promise<Book> 
 }
-
-const api = Axios.create({
-  baseURL: "http://localhost:3000/book",
-});
+import api from '../utils/API'
+// const api = Axios.create({
+//   baseURL: "http://localhost:3000/book",
+// });
 
 class RestAPI implements Api {
+  api: AxiosInstance = Axios.create({
+    baseURL: "http://localhost:3000/book",
+  }); 
+  constructor(api?: AxiosInstance) {
+    if(api)  {
+      this.api = api;
+    }
+  }
   async listBook() {
-    return (await api.get<Book[]>("/")).data
+    return (await this.api.get<Book[]>("/")).data
   }
 
   async getBook(id : string) {
-    return (await api.get<Book>(`/${id}`)).data
+    return (await this.api.get<Book>(`/${id}`)).data
   }
   async insertBook(book: Book) {
-    return (await api.post("/",book)).data
+    return (await this.api.post("/",book)).data
   }
 
   async deleteBook(id: string) {
-    return (await api.delete(`/${id}`)).data
+    return (await this.api.delete(`/${id}`)).data
   }
 
 }
 
 const API : Api = new RestAPI
+import PropTypes, { InferProps } from "prop-types";
 
 function Table() {
   const [state, setState] = React.useState<TableState>({
@@ -208,6 +217,7 @@ function Table() {
     
   );
 }
+
 
 export default function AssignmentI() {
   const classes = useStyles();
