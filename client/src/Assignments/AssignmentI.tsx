@@ -8,14 +8,6 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
 
 
-const useStyles = makeStyles({
-  root: {
-    height: 150,
-    flexGrow: 1,
-    maxWidth: 1000,
-  },
-});
-
 interface Book {
   _id: string;
   author: string;
@@ -67,6 +59,14 @@ class RestAPI implements Api {
 
 const API : Api = new RestAPI
 import PropTypes, { InferProps } from "prop-types";
+
+const useStyles = makeStyles({
+  root: {
+    height: 150,
+    flexGrow: 1,
+    maxWidth: 1000,
+  },
+});
 
 function Table() {
   const [state, setState] = React.useState<TableState>({
