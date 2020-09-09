@@ -1,14 +1,19 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import http = require('http');
-import http2 = require('http2');
-import express = require('express');
+const http = require('http');
+const http2 = require('http2');
+const express = require('express');
+const fs = require('fs');
 import { ExpressAdapter } from '@nestjs/platform-express';
 
 async function bootstrap() {
   try {
-    const server: any = express();
+    const httpsOptions = {
+      key: fs.readFileSync('C:\\Users\\beebe\\Desktop\\Project_Year4\\gRPC\\rest-api\\key\\server.key'),
+      cert: fs.readFileSync('C:\\Users\\beebe\\Desktop\\Project_Year4\\gRPC\\rest-api\\key\\server.crt'),
+    };
+    const server = express();
     const app = await NestFactory.create(AppModule, new ExpressAdapter(server), {
       cors: true,
     });
@@ -26,7 +31,8 @@ async function bootstrap() {
     await app.init();
 
     http.createServer(server).listen(3000);
-    http2.createServer(server).listen(3001);
+    http2.createServer(httpsOptions, server).listen(443);
+
   } catch (e) {
     console.error(e);
   }

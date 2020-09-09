@@ -26,9 +26,6 @@ export class BookService {
         const book = new this.model(dto);
         return book.save();
     }
-    const book = new this.model(dto);
-    return book.save();
-  }
 
   async createMultipleBooks(books: Book[]): Promise<void> {
     const session = await this.model.db.startSession();

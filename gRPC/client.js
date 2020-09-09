@@ -7,6 +7,7 @@ function printResponse(error, response) {
     else
         console.log(response);
 }
+
 function listBooks() {
     client.list({}, function (error, books) {
         printResponse(error, books);
