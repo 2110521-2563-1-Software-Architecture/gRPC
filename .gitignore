@@ -2,3 +2,8 @@
 **/.env
 **/yarn.lock
 **/dist
+client/package-lock.json
+
+rest-api/package-lock.json
+
+.idea/
