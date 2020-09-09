@@ -30,6 +30,11 @@ export class BookController {
         return this.service.createBook(dto);
     }
 
+    @Post('multiple')
+    createMultipleBooks(@Body() books: Book[]) {
+        return this.service.createMultipleBooks(books);
+    }
+
     // @Patch(':id')
     // patchBook(@Param('id') bookId: string, @Body() dto: Partial<Book>) {
     //     return this.service.updateBook(bookId, dto)
