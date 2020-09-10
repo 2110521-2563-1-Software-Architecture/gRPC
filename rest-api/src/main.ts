@@ -13,17 +13,21 @@ async function bootstrap() {
       key: fs.readFileSync('C:\\Users\\beebe\\Desktop\\Project_Year4\\gRPC\\rest-api\\key\\server.key'),
       cert: fs.readFileSync('C:\\Users\\beebe\\Desktop\\Project_Year4\\gRPC\\rest-api\\key\\server.crt'),
     };
-    const server = express();
-    const app = await NestFactory.create(AppModule, new ExpressAdapter(server), {
-      cors: true,
-    });
+    const server: any = express();
+    const app = await NestFactory.create(
+      AppModule,
+      new ExpressAdapter(server),
+      {
+        cors: true,
+      },
+    );
 
     const options = new DocumentBuilder()
-        .setTitle('Soft Arch')
-        .setDescription('Soft Arch')
-        .setVersion('1.0')
-        .addTag('SA')
-        .build();
+      .setTitle('Soft Arch')
+      .setDescription('Soft Arch')
+      .setVersion('1.0')
+      .addTag('SA')
+      .build();
 
     const document = SwaggerModule.createDocument(app, options);
     SwaggerModule.setup('swagger', app, document);
