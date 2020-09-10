@@ -10,16 +10,16 @@ const fs = require('fs');
 
 async function bootstrap() {
   try {
-    const httpsOptions = {
-      key: fs.readFileSync('C:\\Users\\beebe\\Desktop\\Project_Year4\\gRPC\\rest-api\\key\\server.key'),
-      cert: fs.readFileSync('C:\\Users\\beebe\\Desktop\\Project_Year4\\gRPC\\rest-api\\key\\server.crt'),
-    };
-    const opt : { https: any} = {
-          https: httpsOptions
-    }
+    // const httpsOptions = {
+    //   key: fs.readFileSync('C:\\Users\\beebe\\Desktop\\Project_Year4\\gRPC\\rest-api\\key\\server.key'),
+    //   cert: fs.readFileSync('C:\\Users\\beebe\\Desktop\\Project_Year4\\gRPC\\rest-api\\key\\server.crt'),
+    // };
+    // const opt : { https: any} = {
+    //       https: httpsOptions
+    // }
     const app = await NestFactory.create<NestFastifyApplication>(
     	AppModule,
-    	new FastifyAdapter(opt)
+    	// new FastifyAdapter(opt)
   	);
 
     // const server: any = express();
