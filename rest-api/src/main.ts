@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-const http = require('http');
+const https = require('https');
 const http2 = require('http2');
 const express = require('express');
 const fs = require('fs');
@@ -30,8 +30,8 @@ async function bootstrap() {
 
     await app.init();
 
-    http.createServer(server).listen(3000);
-    http2.createServer(httpsOptions, server).listen(443);
+    http2.createSecureServer(httpsOptions,server).listen(443);
+    https.createServer(httpsOptions, server).listen(3001);
 
   } catch (e) {
     console.error(e);
