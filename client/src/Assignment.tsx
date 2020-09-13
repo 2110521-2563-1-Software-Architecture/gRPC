@@ -4,7 +4,8 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import AssignmentI from './Assignments/AssignmentI'
+import AssignmentI from './Assignments/AssignmentI';
+import AssignmentII from './Assignments/AssignmentII';
 import ParticlesBg from "particles-bg";
 
 
@@ -73,14 +74,13 @@ export default function VerticalTabs() {
         className={classes.tabs}
       >
         <Tab label="I : API Test" {...a11yProps(0)} />
-        <Tab label="II : ..." {...a11yProps(1)} />
+        <Tab label="II : Benchmark" {...a11yProps(1)} />
       </Tabs>
       <TabPanel value={value} index={0}>
         <AssignmentI />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Next Station ....
-        <ParticlesBg type="random" />
+        <AssignmentII />
       </TabPanel>
     </div>
   );
