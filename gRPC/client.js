@@ -4,7 +4,7 @@ var booksProto = grpc.load('books.proto');
 var moment = require('moment');
 const { without } = require('lodash');
 var client = new booksProto.books.BookService('0.0.0.0:50051', grpc.credentials.createInsecure());
-// var responseTimeArr = []
+let responseTimeArr = []
 function printResponse(error, response) {
     if (error)
         console.log('Error: ', error);
@@ -17,9 +17,9 @@ function listBooks() {
     client.list({}, function (error, books) {
         const endDate = moment();
         console.log('Request took: ' + endDate.diff(startDate) + ' ms.');
-        // printResponse(error, books);
+        printResponse(error, books);
+        responseTimeArr.push(endDate.diff(startDate))
     });
-    return endDate.diff(startDate)
 
 }
 function insertBook(id, title, author) {
@@ -33,8 +33,8 @@ function insertBook(id, title, author) {
         const endDate = moment();
         console.log('Request took: ' + endDate.diff(startDate) + ' ms.');
         // printResponse(error, empty);
+        responseTimeArr.push(endDate.diff(startDate))
     });
-    return endDate.diff(startDate)
 }
 function getBook(id) {
     var startDate = moment();
@@ -44,16 +44,18 @@ function getBook(id) {
         var endDate = moment();
         console.log('Request took: ' + endDate.diff(startDate) + ' ms.');
         // printResponse(error, book);
+        responseTimeArr.push(endDate.diff(startDate))
     });
 }
 function deleteBook(id) {
     var startDate = moment();
-    await client.delete({
+    client.delete({
         id: parseInt(id)
     }, function (error, empty) {
         var endDate = moment();
         console.log('Request took: ' + endDate.diff(startDate) + ' ms.');
         // printResponse(error, empty);
+        responseTimeArr.push(endDate.diff(startDate))
     });
 }
 function watchBooks() {
@@ -61,9 +63,10 @@ function watchBooks() {
     // var startDate = moment();
     call.on('data', function (book) {
         console.log(book);
-        // var endDate = moment();
-        // console.log('Request took: ' + endDate.diff(startDate) + ' ms.');
+        var endDate = moment();
+        console.log('Request took: ' + endDate.diff(startDate) + ' ms.');
     });
+
 }
 
 function sum(arr) {
@@ -71,20 +74,17 @@ function sum(arr) {
        return a + b;
     }, 0);
  }
-  
+
 function scenario(is_con, func, obj) {
     let n_con_req
     if (is_con) {
-        n_con_req = 10
+        n_con_req = 20
     } else {
         n_con_req = 1
     }
-    // const promisesToAwait = [];
-    // for (let i = 0; i < n_con_req; i++) {
-    //   promisesToAwait.push(func(obj));
-    // }
-    // res = await Promise.all(promisesToAwait);
-        
+    for (let i = 0; i < n_con_req; i++) {
+      func(obj)
+    }
 }
 
 var processName = process.argv.shift();
