@@ -6,6 +6,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
 import Button from '@material-ui/core/Button';
+import BenchmarkChart from '../Components/BenchmarkChart';
 
 
 interface Book {
@@ -105,6 +106,7 @@ function Benchmark() {
       <Button variant="contained" onClick={getBookList} disabled={state.isLoadingRest}>getBook</Button>
       <p style={{ marginLeft: '5vmin'}}>{`${state.responseTime} ms`}</p>
     </span>
+      <BenchmarkChart data={state.responseTimes}/>
   );
 }
 
