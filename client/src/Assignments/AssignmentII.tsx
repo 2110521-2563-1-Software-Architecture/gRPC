@@ -17,8 +17,8 @@ interface Book {
 }
 
 interface BenchmarkState {
-  benchmarkNumber: number;
-  responseTime: number;
+  benchmarkNumbers: Array<number>;
+  responseTimes: Array<object>;
   isLoadingRest: boolean;
 }
 
@@ -59,54 +59,59 @@ const useStyles = makeStyles({
     flexGrow: 1,
     maxWidth: 1000,
   },
-  item: {
+  chart: {
     marginTop: '5vmin',
   },
 });
 
 function Benchmark() {
   const [state, setState] = React.useState<BenchmarkState>({
-    benchmarkNumber: 100,
-    responseTime: 0,
+    benchmarkNumbers: [1, 2, 4, 8, 16, 32, 64, 128],
+    responseTimes: [],
     isLoadingRest: false
   });
-  const getBookList = async () => {
+  const responseTimes: { x: number; y: number; }[] = [];
+  const getBookLists = async () => {
     setState((prevState)=> {
       return { ...prevState, isLoadingRest: true };
     })
-    try {
-      let sendDate = (new Date()).getTime();
-
-      const pendingPromises = []
-      for (let i = 0; i < state.benchmarkNumber; i++) {
-        pendingPromises.push(new Promise((res, err) => {
-          return res(API.listBook());
-        }));
+    for(let i = 0; i < state.benchmarkNumbers.length; i++) {
+      const interval = state.benchmarkNumbers[i];
+      try {
+        const sendDate = (new Date()).getTime();
+        const pendingPromises = []
+        for (let i = 0; i < interval; i++) {
+          pendingPromises.push(new Promise((res, err) => {
+            return res(API.listBook());
+          }));
+        }
+        await Promise.all(pendingPromises);
+        const receiveDate = (new Date()).getTime();
+        const timeMs = receiveDate - sendDate;
+        responseTimes.push({x: interval, y: timeMs/interval});
+      } catch(err) {
+        alert(err);
+        return;
       }
-      await Promise.all(pendingPromises);
-
-      let receive = (new Date()).getTime();
-        let responseTimeMs = receive - sendDate;
-        setState((prevState) => {
-          return {...prevState, responseTime: responseTimeMs }
-        });
-    } catch(err) {
-      alert(err);
     }
     setState((prevState)=> {
-      return { ...prevState, isLoadingRest: false };
+      return { ...prevState, isLoadingRest: false, responseTimes};
     })
   };
   return (
-    <span
-    style={{
-      marginTop: '5vmin',
-      display: 'flex',
-    }}>
-      <Button variant="contained" onClick={getBookList} disabled={state.isLoadingRest}>getBook</Button>
-      <p style={{ marginLeft: '5vmin'}}>{`${state.responseTime} ms`}</p>
-    </span>
+    <div>
+      <div>
+        <Button variant="contained" onClick={getBookLists} disabled={state.isLoadingRest}>getBook</Button>
+      </div>
+      {/* <div>
+      {
+        state.responseTimes.map((sample: any) => {
+        return (<p>{`${sample.x} intervals use ${sample.y} ms`}</p>)
+        })
+      }
+      </div> */}
       <BenchmarkChart data={state.responseTimes}/>
+    </div>
   );
 }
 
