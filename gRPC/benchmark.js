@@ -64,7 +64,8 @@ var scenario = process.argv[2];
 	} else if (scenario == 's2') {
 	} else if (scenario == 's3') {
 		const response = [];
-		for (let i = 1; i <= 3; i++) {
+		for (let i = 1; i <= 4096; i = i + 45) {
+			console.log(i);
 			const start = moment();
 			const toWait = [];
 			for (let c = 1; c <= i; c++) {
