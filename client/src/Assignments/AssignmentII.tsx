@@ -16,6 +16,12 @@ interface Book {
   title: string;
 }
 
+interface NewBook {
+  id: string;
+  author: string;
+  title: string;
+}
+
 interface BenchmarkState {
   benchmarkNumbers: Array<number>;
   responseTimes: Array<object>;
@@ -26,7 +32,7 @@ interface BenchmarkState {
 interface Api {
   listBook() : Promise<Book[]>  
   getBook(id: string) : Promise<Book>
-  insertBook(book: Book) : Promise<Book>,
+  insertBook(book: NewBook) : Promise<NewBook>,
   deleteBook(id: string) : Promise<Book> 
 }
 
@@ -42,7 +48,7 @@ class RestAPI implements Api {
   async getBook(id : string) {
     return (await api.get<Book>(`/${id}`)).data
   }
-  async insertBook(book: Book) {
+  async insertBook(book: NewBook) {
     return (await api.post("/",book)).data
   }
 
