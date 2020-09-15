@@ -71,8 +71,12 @@ const useStyles = makeStyles({
 });
 
 function Benchmark() {
+  const benchmarkPoints = [];
+  for (let i = 1; i <= 4096; i = i + 45) {
+    benchmarkPoints.push(i);
+  }
   const [state, setState] = React.useState<BenchmarkState>({
-    benchmarkNumbers: [1, 2, 4, 8, 16, 32, 64, 128],
+    benchmarkNumbers: benchmarkPoints,
     responseTimes: [],
     isLoadingRest: false
   });
@@ -84,13 +88,13 @@ function Benchmark() {
     for(let i = 0; i < state.benchmarkNumbers.length; i++) {
       const interval = state.benchmarkNumbers[i];
       try {
-        const sendDate = (new Date()).getTime();
         const pendingPromises = []
         for (let i = 0; i < interval; i++) {
           pendingPromises.push(new Promise((res, err) => {
             return res(API.listBook());
           }));
         }
+        const sendDate = (new Date()).getTime();
         await Promise.all(pendingPromises);
         const receiveDate = (new Date()).getTime();
         const timeMs = receiveDate - sendDate;
