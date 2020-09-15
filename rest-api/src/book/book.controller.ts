@@ -32,7 +32,7 @@ export class BookController {
 
   @Get(':id')
   findById(@Param('id') id: string) {
-    return this.service.findById(id);
+    return this.service.find({ id });
   }
 
   @Post()
@@ -60,7 +60,7 @@ export class BookController {
     return this.service.deleteBook(bookId);
   }
 
-  // TODO 
+  // TODO
   // @Delete('all')
   // deleteBooks(@Query() query) {
   //   console.log(query)

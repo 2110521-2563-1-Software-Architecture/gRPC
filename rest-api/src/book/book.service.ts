@@ -18,14 +18,14 @@ export class BookService {
     return this.model.findById(id).exec();
   }
 
-    async createBook(dto: Book): Promise<Book> {
-        const existed: boolean = await this.model.exists({ id: dto.id });
-        if (existed) {
-            throw new BadRequestException(`Book id ${dto.id} already existed`);
-        }
-        const book = new this.model(dto);
-        return book.save();
+  async createBook(dto: Book): Promise<Book> {
+    const existed: boolean = await this.model.exists({ id: dto.id });
+    if (existed) {
+      throw new BadRequestException(`Book id ${dto.id} already existed`);
     }
+    const book = new this.model(dto);
+    return book.save();
+  }
 
   async createMultipleBooks(books: Book[]): Promise<void> {
     const session = await this.model.db.startSession();
@@ -47,7 +47,9 @@ export class BookService {
     return this.model.findByIdAndDelete(id).exec();
   }
 
-  deleteBooks()  {
-    this.model.deleteMany({ id: {$gte : 0 }}, function(err){console.log(err)})
+  deleteBooks() {
+    this.model.deleteMany({ id: { $gte: 0 } }, function(err) {
+      console.log(err);
+    });
   }
 }

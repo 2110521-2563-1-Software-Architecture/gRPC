@@ -39,13 +39,12 @@ async function bootstrap() {
 
     const document = SwaggerModule.createDocument(app, options);
     SwaggerModule.setup('swagger', app, document);
-    
-    await app.listen(3000)
+
+    await app.listen(3000);
 
     // await app.init();
     // http2.createServer(httpsOptions,server).listen(443);
     // https.createServer(httpsOptions, server).listen(3000);
-
   } catch (e) {
     console.error(e);
   }
