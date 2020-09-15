@@ -1,10 +1,8 @@
-var grpc = require('grpc');
-var booksProto = grpc.load('books.proto');
-// var request = require('request');
-var moment = require('moment');
-const { without } = require('lodash');
-var client = new booksProto.books.BookService('0.0.0.0:50051', grpc.credentials.createInsecure());
-let responseTimeArr = [];
+const grpc = require('grpc');
+const booksProto = grpc.load('books.proto');
+const moment = require('moment');
+const client = new booksProto.books.BookService('0.0.0.0:50051', grpc.credentials.createInsecure());
+
 function printResponse(error, response) {
 	if (error) console.log('Error: ', error);
 	else console.log(response);
