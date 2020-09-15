@@ -11,6 +11,12 @@
 | Tanawit    | Kritwongwiman     | 6031021021 |
 | Nithipud   | Tunticharoenviwat | 6031032921 |
 
+## Client
+
+### Rest Client https://github.com/2110521-2563-1-Software-Architecture/gRPC/blob/test-http2/client/rest-client.ts
+
+### gRPC Client https://github.com/2110521-2563-1-Software-Architecture/gRPC/blob/test-http2/gRPC/grpc-client.js
+
 <br>
 
 ## 1. Graphs showing the benchmark results wih the explanation of experimental setting
