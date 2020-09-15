@@ -65,6 +65,7 @@ const useStyles = makeStyles({
 function Table() {
   const [state, setState] = React.useState<TableState>({
     columns: [
+      { title: "ID", field: "id"},
       { title: "BOOK ID", field: "_id", editable: 'never'},
       { title: "BOOK Author", field: "author" },
       { title: "BOOK Title", field: "title"},
@@ -189,7 +190,6 @@ function Table() {
             resolve();
             setTimeout(() => {
               resolve();
-              // const data:Book = { ...newData, id:""}
               addBook(newData);
             }, 100);
           }),
