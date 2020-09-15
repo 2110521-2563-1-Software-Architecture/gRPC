@@ -114,12 +114,84 @@ function Benchmark() {
         <Button variant="contained" onClick={getBookLists} disabled={state.isLoadingRest}>getBook</Button>
       </div>
       {/* <div>
+function SingleInsertCall() {
+  const [state, setState] = React.useState<BenchmarkState>({
+    benchmarkNumbers: [1, 5, 10, 15, 20],
+    responseTimes: [],
+    isLoadingRest: false
+  });
+
+  //  The test is running on books having id more than 10000
+  const clearBookData = async () => {
+    console.log("clearBookData");
+    try {
+      let books: Book[] = await API.listBook();
+      books = books.filter((book) => parseInt(book.id) > 10000);
+      for (const book of books) {
+        await API.deleteBook(book._id);
+      }
+    } catch(err) {
+      alert(err);
+    }
+  };
+
+  const addBook = async (book: NewBook) => {
+    console.log("addBook");
+    try {
+      await API.insertBook(book);
+    } catch(err) {
+      alert(err);
+    }
+  };
+
+  const runTest = async() => {
+    setState((prevState) => {
+      return { ...prevState, isLoadRest: true };
+    });
+    const responseTimes: { x: number; y: number; }[] = [];
+    try {
+      for(let j = 0; j < state.benchmarkNumbers.length; j++) {
+        const interval = state.benchmarkNumbers[j];
+        await clearBookData();
+        const sendDate = (new Date()).getTime();
+        for(let i = 10001;i <= 10000+interval; i++) {
+          const newData: NewBook = {
+            id: i.toString(),
+            author: 'SingleInsertCall',
+            title: 'SingleInsertCall'
+          };
+          await addBook(newData);
+        }
+        const receiveDate = (new Date()).getTime();
+        const timeMs = receiveDate - sendDate;
+        responseTimes.push({x: interval, y: timeMs});
+      }
+    } catch(err) {
+      alert(err);
+    }
+    try {
+      await clearBookData();
+    } catch(err) {
+      alert(err);
+    }
+
+    setState((prevState) => {
+      return { ...prevState, isLoadRest: false, responseTimes };
+    });
+  };
+  return (
+    <div>
+      <div>
+        <Button variant="contained" onClick={runTest} disabled={state.isLoadingRest}>Single Insert Call</Button>
+      </div>
+      <div>
+      <pre>{`intervals\ttime(ms)`}</pre>
       {
         state.responseTimes.map((sample: any) => {
-        return (<p>{`${sample.x} intervals use ${sample.y} ms`}</p>)
+        return (<pre>{`${sample.x}\t${sample.y}`}</pre>)
         })
       }
-      </div> */}
+      </div>
       <BenchmarkChart data={state.responseTimes}/>
     </div>
   );
@@ -136,6 +208,7 @@ export default function AssignmentII() {
       defaultExpanded={["1"]}
     >
       <TreeItem nodeId="1" label="REST API">
+        <SingleInsertCall/>
         <Benchmark/>
       </TreeItem>
     </TreeView>
