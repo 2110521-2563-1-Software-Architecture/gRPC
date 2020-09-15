@@ -113,7 +113,19 @@ function Benchmark() {
       <div>
         <Button variant="contained" onClick={getBookLists} disabled={state.isLoadingRest}>getBook</Button>
       </div>
-      {/* <div>
+      <div>
+      <pre>{`intervals\ttime(ms)`}</pre>
+      {
+        state.responseTimes.map((sample: any) => {
+        return (<pre>{`${sample.x}\t${sample.y}`}</pre>)
+        })
+      }
+      </div>
+      <BenchmarkChart data={state.responseTimes}/>
+    </div>
+  );
+}
+
 function SingleInsertCall() {
   const [state, setState] = React.useState<BenchmarkState>({
     benchmarkNumbers: [1, 5, 10, 15, 20],
