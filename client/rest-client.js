@@ -154,7 +154,7 @@ var scenario = process.argv[2];
                 i = 1;
                 _c.label = 9;
             case 9:
-                if (!(i <= 4096)) return [3 /*break*/, 12];
+                if (!(i <= 1036)) return [3 /*break*/, 12];
                 console.log(i);
                 start = moment_1.default();
                 toWait = [];

@@ -99,7 +99,7 @@ var scenario = process.argv[2];
 		console.log('Request took: ' + end.diff(start) + ' ms.');
 	} else if (scenario == 's3') {
 		const response = [];
-		for (let i = 1; i <= 4096; i = i + 45) {
+		for (let i = 1; i <= 1036; i = i + 45) {
 			console.log(i);
 			const start = moment();
 			const toWait = [];
