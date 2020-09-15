@@ -1,12 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { FastifyAdapter,NestFastifyApplication } from '@nestjs/platform-fastify';
+// import { FastifyAdapter,NestFastifyApplication } from '@nestjs/platform-fastify';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 // const https = require('https');
 // const http2 = require('http2');
 // const express = require('express');
 const fs = require('fs');
-// import { ExpressAdapter } from '@nestjs/platform-express';
 
 async function bootstrap() {
   try {
@@ -17,19 +16,19 @@ async function bootstrap() {
     // const opt : { https: any} = {
     //       https: httpsOptions
     // }
-    const app = await NestFactory.create<NestFastifyApplication>(
-    	AppModule,
-    	// new FastifyAdapter(opt)
-  	);
+    // const app = await NestFactory.create<NestFastifyApplication>(
+    // 	AppModule,
+    // 	new FastifyAdapter(opt)
+    // );
 
     // const server: any = express();
-    // const app = await NestFactory.create(
-    //   AppModule,
-    //   new ExpressAdapter(server),
-    //   {
-    //     cors: true,
-    //   },
-    // );
+    const app = await NestFactory.create(
+      AppModule,
+      // new ExpressAdapter(server),
+      {
+        cors: true,
+      },
+    );
 
     const options = new DocumentBuilder()
       .setTitle('Soft Arch')

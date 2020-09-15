@@ -59,4 +59,11 @@ export class BookController {
   deleteBook(@Param('id') bookId: string) {
     return this.service.deleteBook(bookId);
   }
+
+  // TODO 
+  // @Delete('all')
+  // deleteBooks(@Query() query) {
+  //   console.log(query)
+  //   return this.service.deleteBooks();
+  // }
 }

@@ -1,7 +1,7 @@
 import React from "react";
-import logo from "./logo.svg";
+// import logo from "./logo.svg";
 import "./Home.css";
-import Box from "@material-ui/core/Box";
+// import Box from "@material-ui/core/Box";
 
 function Home() {
   return (

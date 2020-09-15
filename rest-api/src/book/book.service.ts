@@ -46,4 +46,8 @@ export class BookService {
   deleteBook(id: string): Promise<Book> {
     return this.model.findByIdAndDelete(id).exec();
   }
+
+  deleteBooks()  {
+    this.model.deleteMany({ id: {$gte : 0 }}, function(err){console.log(err)})
+  }
 }

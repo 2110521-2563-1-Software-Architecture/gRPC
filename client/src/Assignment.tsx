@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import AssignmentI from './Assignments/AssignmentI';
 import AssignmentII from './Assignments/AssignmentII';
-import ParticlesBg from "particles-bg";
+// import ParticlesBg from "particles-bg";
 
 
 interface TabPanelProps {
