@@ -12,7 +12,7 @@ function printResponse(error, response) {
 async function listBooks() {
 	return new Promise((resolve) => {
 		client.list({}, function (error, books) {
-			//printResponse(error, books);
+			printResponse(error, books);
 			resolve(true);
 		});
 	});
@@ -30,6 +30,25 @@ async function insertBook(id, title, author) {
 		});
 	});
 }
+
+async function insertBooks(id, title, author) {
+	var book = {
+		id: parseInt(id),
+		title: title,
+		author: author,
+	};
+	var books = []
+	for (let i = 1; i <= 2; i = i + 1) {
+		books.push(book)
+	}
+	return new Promise((resolve) => {
+		client.insertList(books, function (error, books) {
+			printResponse(error, books);
+			resolve(true);
+		});
+	});
+}
+
 function getBook(id) {
 	var startDate = moment();
 	client.get(
@@ -56,9 +75,14 @@ function deleteBook(id) {
 
 var scenario = process.argv[2];
 (async () => {
-	if (scenario == 's1') {
+	if (scenario == 's1-1') {
 		const start = moment();
 		await insertBook(process.argv[3], process.argv[4], process.argv[5]);
+		const end = moment();
+		console.log('Request took: ' + end.diff(start) + ' ms.');
+	} else if (scenario == 's1-2') {
+		const start = moment();
+		await insertBooks(process.argv[3], process.argv[4], process.argv[5]);
 		const end = moment();
 		console.log('Request took: ' + end.diff(start) + ' ms.');
 	} else if (scenario == 's2') {

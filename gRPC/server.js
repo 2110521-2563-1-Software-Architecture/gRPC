@@ -19,11 +19,8 @@ server.addService(booksProto.books.BookService.service, {
 		callback(null, {});
 	},
 	insertList: function (call, callback) {
-		var bks = call.request;
-		for (let bk of bks) {
-			books.push(bk);
-			bookStream.emit('new_book', book);
-		}
+		const bks = call.request;
+		books.push(...bks.books)
 		callback(null, {});
 	},
 	get: function (call, callback) {
