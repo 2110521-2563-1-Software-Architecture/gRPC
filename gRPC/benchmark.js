@@ -9,6 +9,7 @@ function printResponse(error, response) {
 	if (error) console.log('Error: ', error);
 	else console.log(response);
 }
+
 async function listBooks() {
 	return new Promise((resolve) => {
 		client.list({}, function (error, books) {
@@ -17,6 +18,7 @@ async function listBooks() {
 		});
 	});
 }
+
 async function insertBook(id, title, author) {
 	var book = {
 		id: parseInt(id),
@@ -37,9 +39,9 @@ async function insertBooks(id, title, author) {
 		title: title,
 		author: author,
 	};
-	var books = []
-	for (let i = 1; i <= 2; i = i + 1) {
-		books.push(book)
+	const books = [];
+	for (let i = 1; i <= 10; i++) {
+		books.push(book);
 	}
 	return new Promise((resolve) => {
 		client.insertList(books, function (error, books) {
@@ -49,28 +51,22 @@ async function insertBooks(id, title, author) {
 	});
 }
 
-function getBook(id) {
-	var startDate = moment();
-	client.get(
-		{
-			id: parseInt(id),
-		},
-		function (error, book) {}
-	);
+async function getBook(id) {
+	return new Promise((resolve) => {
+		client.get({ id: parseInt(id) }, function (error, book) {
+			printResponse(error, book);
+			resolve(true);
+		});
+	});
 }
-function deleteBook(id) {
-	var startDate = moment();
-	client.delete(
-		{
-			id: parseInt(id),
-		},
-		function (error, empty) {
-			var endDate = moment();
-			console.log('Request took: ' + endDate.diff(startDate) + ' ms.');
-			// printResponse(error, empty);
-			responseTimeArr.push(endDate.diff(startDate));
-		}
-	);
+
+async function deleteBook(id) {
+	return new Promise((resolve) => {
+		client.delete({ id: parseInt(id) }, function (error, empty) {
+			printResponse(error, empty);
+			resolve(true);
+		});
+	});
 }
 
 var scenario = process.argv[2];
@@ -86,6 +82,15 @@ var scenario = process.argv[2];
 		const end = moment();
 		console.log('Request took: ' + end.diff(start) + ' ms.');
 	} else if (scenario == 's2') {
+		const start = moment();
+		const insertB = insertBook('191', 'Jonh wick', 'Adam');
+		const getB = getBook('123');
+		const getBs = listBooks();
+		const deleteB = deleteBook('234');
+		const toWait = [insertB, getBs, getB, deleteB];
+		await Promise.all(toWait);
+		const end = moment();
+		console.log('Request took: ' + end.diff(start) + ' ms.');
 	} else if (scenario == 's3') {
 		const response = [];
 		for (let i = 1; i <= 4096; i = i + 45) {

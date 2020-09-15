@@ -5,7 +5,10 @@ var events = require('events');
 var bookStream = new events.EventEmitter();
 var booksProto = grpc.load('books.proto');
 // In-memory array of book objects
-var books = [{ id: 123, title: 'A Tale of Two Cities', author: 'Charles Dickens' }];
+var books = [
+	{ id: 123, title: 'A Tale of Two Cities', author: 'Charles Dickens' },
+	{ id: 234, title: 'Calculus', author: 'Davinci' },
+];
 var server = new grpc.Server();
 server.addService(booksProto.books.BookService.service, {
 	list: function (call, callback) {
@@ -20,7 +23,7 @@ server.addService(booksProto.books.BookService.service, {
 	},
 	insertList: function (call, callback) {
 		const bks = call.request;
-		books.push(...bks.books)
+		books.push(...bks.books);
 		callback(null, {});
 	},
 	get: function (call, callback) {
