@@ -28,12 +28,12 @@ interface BenchmarkState {
   isLoadingRest: boolean;
 }
 
-
 interface Api {
-  listBook() : Promise<Book[]>  
-  getBook(id: string) : Promise<Book>
+  listBook() : Promise<Book[]>,  
+  getBook(id: string) : Promise<Book>,
   insertBook(book: NewBook) : Promise<NewBook>,
-  deleteBook(id: string) : Promise<Book> 
+  deleteBook(id: string) : Promise<Book>, 
+  insertBookList(bookList: Array<NewBook>) : any
 }
 
 const api = Axios.create({
@@ -48,12 +48,17 @@ class RestAPI implements Api {
   async getBook(id : string) {
     return (await api.get<Book>(`/${id}`)).data
   }
+
   async insertBook(book: NewBook) {
     return (await api.post("/",book)).data
   }
 
   async deleteBook(id: string) {
     return (await api.delete(`/${id}`)).data
+  }
+
+  async insertBookList(bookList: Array<NewBook>) {
+    return (await api.post("/multiple",bookList)).data
   }
 
 }
@@ -126,9 +131,13 @@ function Benchmark() {
   );
 }
 
+/** 
+ * Scenario a. Single client with a small call to insert a book item
+ * , a bigger call to insert a list of multiple book items
+ **/
 function SingleInsertCall() {
   const [state, setState] = React.useState<BenchmarkState>({
-    benchmarkNumbers: [1, 5, 10, 15, 20],
+    benchmarkNumbers: [1, 10, 20, 30, 40, 50],
     responseTimes: [],
     isLoadingRest: false
   });
@@ -147,10 +156,19 @@ function SingleInsertCall() {
     }
   };
 
-  const addBook = async (book: NewBook) => {
-    console.log("addBook");
+  // const addBook = async (book: NewBook) => {
+  //   console.log("addBook");
+  //   try {
+  //     await API.insertBook(book);
+  //   } catch(err) {
+  //     alert(err);
+  //   }
+  // };
+
+  const addBookList = async (bookList: Array<NewBook>) => {
+    console.log("addBookList");
     try {
-      await API.insertBook(book);
+      await API.insertBookList(bookList);
     } catch(err) {
       alert(err);
     }
@@ -165,15 +183,19 @@ function SingleInsertCall() {
       for(let j = 0; j < state.benchmarkNumbers.length; j++) {
         const interval = state.benchmarkNumbers[j];
         await clearBookData();
-        const sendDate = (new Date()).getTime();
+        
+        const bookList = [];
         for(let i = 10001;i <= 10000+interval; i++) {
           const newData: NewBook = {
             id: i.toString(),
             author: 'SingleInsertCall',
             title: 'SingleInsertCall'
           };
-          await addBook(newData);
+          bookList.push(newData);
+          //await addBook(newData);
         }
+        const sendDate = (new Date()).getTime();
+        await addBookList(bookList);
         const receiveDate = (new Date()).getTime();
         const timeMs = receiveDate - sendDate;
         responseTimes.push({x: interval, y: timeMs});
