@@ -45,7 +45,7 @@ insert, get, getList and delete were called at the same time
 
 Get book list function was called concurrently from 1 to 4096 and response time was measured before the first request was performed and stopped when the last request was responded.
 
--   REST API is very slow, so that we don’t make an experiment to 4096 concurrent calls.
+**_REST API is very slow, so that we don’t make an experiment to 4096 concurrent calls._**
 
 ## 2. Discussion of the results why one method is better the other in which scenarios
 
