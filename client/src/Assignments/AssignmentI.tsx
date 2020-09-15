@@ -1,12 +1,13 @@
 import React, { useEffect, Key } from "react";
 import MaterialTable, { Column } from "material-table";
-import Axios from "axios";
+import Axios, { AxiosInstance } from "axios";
 import { makeStyles } from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
-
+import api from '../utils/API'
+// import PropTypes, { InferProps } from "prop-types";
 
 interface Book {
   _id: string,
@@ -27,30 +28,37 @@ interface Api {
   insertBook(book: Book) : Promise<Book>,
   deleteBook(id: string) : Promise<Book> 
 }
-
-const api = Axios.create({
-  baseURL: "http://localhost:3000/book",
-});
+// const api = Axios.create({
+//   baseURL: "http://localhost:3000/book",
+// });
 
 class RestAPI implements Api {
+  api: AxiosInstance = Axios.create({
+    baseURL: "http://localhost:3000/book",
+  }); 
+  constructor(api?: AxiosInstance) {
+    if(api)  {
+      this.api = api;
+    }
+  }
   async listBook() {
-    return (await api.get<Book[]>("/")).data
+    return (await this.api.get<Book[]>("/")).data
   }
 
   async getBook(id : string) {
-    return (await api.get<Book>(`/${id}`)).data
+    return (await this.api.get<Book>(`/${id}`)).data
   }
   async insertBook(book: Book) {
-    return (await api.post("/",book)).data
+    return (await this.api.post("/",book)).data
   }
 
   async deleteBook(id: string) {
-    return (await api.delete(`/${id}`)).data
+    return (await this.api.delete(`/${id}`)).data
   }
 
 }
 
-const API : Api = new RestAPI()
+const API : Api = new RestAPI(api)
 
 const useStyles = makeStyles({
   root: {
@@ -65,6 +73,7 @@ const useStyles = makeStyles({
 function Table() {
   const [state, setState] = React.useState<TableState>({
     columns: [
+      { title: "ID", field: "id"},
       { title: "BOOK ID", field: "_id", editable: 'never'},
       { title: "BOOK Author", field: "author" },
       { title: "BOOK Title", field: "title"},
@@ -77,7 +86,7 @@ function Table() {
     await API.getBook(id)
       .then((book : Book)=>{
         const data = state.data.map((bk : Book)=> {
-          if(bk.id === book.id) {
+          if(bk._id === book._id) {
             return book
           } else {
             return bk
@@ -189,7 +198,6 @@ function Table() {
             resolve();
             setTimeout(() => {
               resolve();
-              // const data:Book = { ...newData, id:""}
               addBook(newData);
             }, 100);
           }),
@@ -218,6 +226,7 @@ function Table() {
     
   );
 }
+
 
 export default function AssignmentI() {
   const classes = useStyles();
