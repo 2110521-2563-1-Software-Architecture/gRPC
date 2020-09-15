@@ -1,21 +1,35 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { FastifyAdapter,NestFastifyApplication } from '@nestjs/platform-fastify';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import http = require('http');
-import http2 = require('http2');
-import express = require('express');
-import { ExpressAdapter } from '@nestjs/platform-express';
+// const https = require('https');
+// const http2 = require('http2');
+// const express = require('express');
+const fs = require('fs');
+// import { ExpressAdapter } from '@nestjs/platform-express';
 
 async function bootstrap() {
   try {
-    const server: any = express();
-    const app = await NestFactory.create(
-      AppModule,
-      new ExpressAdapter(server),
-      {
-        cors: true,
-      },
-    );
+    // const httpsOptions = {
+    //   key: fs.readFileSync('C:\\Users\\beebe\\Desktop\\Project_Year4\\gRPC\\rest-api\\key\\server.key'),
+    //   cert: fs.readFileSync('C:\\Users\\beebe\\Desktop\\Project_Year4\\gRPC\\rest-api\\key\\server.crt'),
+    // };
+    // const opt : { https: any} = {
+    //       https: httpsOptions
+    // }
+    const app = await NestFactory.create<NestFastifyApplication>(
+    	AppModule,
+    	// new FastifyAdapter(opt)
+  	);
+
+    // const server: any = express();
+    // const app = await NestFactory.create(
+    //   AppModule,
+    //   new ExpressAdapter(server),
+    //   {
+    //     cors: true,
+    //   },
+    // );
 
     const options = new DocumentBuilder()
       .setTitle('Soft Arch')
@@ -26,11 +40,13 @@ async function bootstrap() {
 
     const document = SwaggerModule.createDocument(app, options);
     SwaggerModule.setup('swagger', app, document);
+    
+    await app.listen(3000)
 
-    await app.init();
+    // await app.init();
+    // http2.createServer(httpsOptions,server).listen(443);
+    // https.createServer(httpsOptions, server).listen(3000);
 
-    http.createServer(server).listen(3000);
-    http2.createServer(server).listen(3001);
   } catch (e) {
     console.error(e);
   }
