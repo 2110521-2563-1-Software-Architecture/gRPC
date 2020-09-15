@@ -40,11 +40,11 @@ export class BookService {
   }
 
   updateBook(id: string, dto: Partial<Book>): Promise<Book> {
-    return this.model.findByIdAndUpdate(id, dto, { new: true }).exec();
+    return this.model.findByIdAndUpdate({ id }, dto, { new: true }).exec();
   }
 
   deleteBook(id: string): Promise<Book> {
-    return this.model.findByIdAndDelete(id).exec();
+    return this.model.findOneAndDelete({ id }).exec();
   }
 
   deleteBooks() {
