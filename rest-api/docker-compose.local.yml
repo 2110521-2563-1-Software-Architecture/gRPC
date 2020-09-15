@@ -9,8 +9,6 @@ services:
     volumes:
       - .:/server
     command: sh -c 'cd /server && yarn && yarn dev'
-    env_file:
-      - .env
     environment:
       NODE_ENV: development
       MONGO_URL: mongodb://mongo:27017/assignment1
