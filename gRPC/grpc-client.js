@@ -11,7 +11,7 @@ function printResponse(error, response) {
 async function listBooks() {
 	return new Promise((resolve) => {
 		client.list({}, function (error, books) {
-			printResponse(error, books);
+			//printResponse(error, books);
 			resolve(true);
 		});
 	});
